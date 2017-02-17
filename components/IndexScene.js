@@ -29,7 +29,7 @@ class IndexScene extends Component {
         <Text style={styles.welcome}>
           Welcome Expample App!
         </Text>
-        <TextInput style={styles.authInput} value="test@test.com" onChangeText={(email) => this.setState({ email })} placeholder="Email" keyboardType="email-address" />
+        <TextInput style={styles.authInput} onChangeText={(email) => this.setState({ email })} placeholder="Email" keyboardType="email-address" />
         <TextInput style={styles.authInput} onChangeText={(password) => this.setState({ password })} placeholder="Password" secureTextEntry={true} />
         <Button onPress={() => this.onPressLogin()} title="Login" />
         { this.state.auth.get('loading') === true ? <Text>Loading..</Text> : null }

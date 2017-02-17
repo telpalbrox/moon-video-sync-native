@@ -22,6 +22,7 @@ class RoomStore extends ReduceStore {
             case 'ROOMS_REQUEST_SUCCESS':
                 return state = state.set('rooms', Immutable.List(action.rooms)).set('loading', false).set('error', false);
             case 'ROOMS_REQUEST_ERROR':
+                console.error(action.err);
                 return state.set('rooms', null).set('loading', false).set('error', true);
             default:
                 return state;
