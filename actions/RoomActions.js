@@ -2,23 +2,24 @@ import axios from 'axios';
 import { AppDispatcher } from '../AppDispatcher';
 import { config } from '../config';
 
-const AuthActions = {
-    async login(email, password) {
+const RoomActions = {
+    async getAll(email, password) {
         AppDispatcher.dispatch({
-            type: 'LOGIN_REQUEST'
+            type: 'ROOMS_REQUEST'
         });
         try {
-            await axios.post(`${config.API_URL}/login`, { email, password });
+            let response = await axios.get(`${config.API_URL}/rooms`, { withCredentials: true });
             AppDispatcher.dispatch({
-                type: 'LOGIN_REQUEST_SUCCESS'
+                type: 'ROOMS_REQUEST_SUCCESS',
+                rooms: response.data
             });
         } catch (err) {
             AppDispatcher.dispatch({
-                type: 'LOGIN_REQUEST_ERROR',
+                type: 'ROOMS_REQUEST_ERROR',
                 err
             });
         }
     }
 };
 
-export { AuthActions };
+export { RoomActions };
