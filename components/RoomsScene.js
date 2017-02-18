@@ -1,8 +1,9 @@
 import React, { Component, PropTypes } from 'react';
-import { View, Text, TouchableHighlight, StyleSheet, ListView } from 'react-native';
+import { View, Text, TouchableHighlight, StyleSheet, ListView, Button } from 'react-native';
 import { Container } from 'flux/utils';
 import RoomStore from '../stores/RoomStore';
 import { RoomActions } from '../actions/RoomActions';
+import { AuthActions } from '../actions/AuthActions';
 
 class RoomsScene extends Component {
   static getStores() {
@@ -10,7 +11,6 @@ class RoomsScene extends Component {
   }
 
   static calculateState(prevState) {
-    //return RoomStore.getState();
     return { rooms: RoomStore.getState() }
   }
 
@@ -27,13 +27,13 @@ class RoomsScene extends Component {
   }
 
   render() {
-    console.log(this.state.rooms.toJS());
     if (this.state.rooms.get('rooms')) {
       this.state.dataSource = this.state.dataSource.cloneWithRows(this.state.rooms.get('rooms').toJS());
     }
     return (
       <View style={styles.container}>
-        <Text>Test</Text>
+        <Text>Rooms</Text>
+        <Button title="Logout" onPress={() => this.onLogutClick()} />
         {this.state.rooms.get('error') === true ? <Text>Error</Text> : null}
         {this.state.rooms.get('error') === false ? <Text>Todo va bien</Text> : null}
         {this.state.rooms.get('loading') === true ? <Text>Loading..</Text> : null}
@@ -43,6 +43,13 @@ class RoomsScene extends Component {
         />
       </View>
     );
+  }
+
+  async onLogutClick() {
+    await AuthActions.logout();
+    this.props.navigator.push({
+      id: 'IndexScene'
+    });
   }
 
   renderRow(room) {
@@ -56,6 +63,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
+    paddingTop: 30
   }
 });
 

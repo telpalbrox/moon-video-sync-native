@@ -5,7 +5,9 @@ import {
   Text,
   View,
   TextInput,
-  Button
+  Button,
+  StatusBar,
+  Platform
 } from 'react-native';
 import { Container } from 'flux/utils';
 import AuthStore from '../stores/AuthStore';
@@ -26,13 +28,17 @@ class IndexScene extends Component {
   render() {
     return (
       <View style={styles.container}>
+        <StatusBar
+          backgroundColor="blue"
+          barStyle={Platform.OS === 'ios' ? 'dark-content' : null}
+        />
         <Text style={styles.welcome}>
           Welcome Expample App!
         </Text>
         <TextInput style={styles.authInput} onChangeText={(email) => this.setState({ email })} placeholder="Email" keyboardType="email-address" />
         <TextInput style={styles.authInput} onChangeText={(password) => this.setState({ password })} placeholder="Password" secureTextEntry={true} />
         <Button onPress={() => this.onPressLogin()} title="Login" />
-        { this.state.auth.get('loading') === true ? <Text>Loading..</Text> : null }
+        {this.state.auth.get('loading') === true ? <Text>Loading..</Text> : null}
       </View>
     );
   }
@@ -40,7 +46,7 @@ class IndexScene extends Component {
   async onPressLogin() {
     await AuthActions.login(this.state.email.trim(), this.state.password.trim());
     this.props.navigator.push({
-        id: 'RoomsScene'
+      id: 'RoomsScene'
     });
   }
 }
