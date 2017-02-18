@@ -53,7 +53,14 @@ class RoomsScene extends Component {
   }
 
   renderRow(room) {
-    return (<Text>{room.name}</Text>);
+    return (<View><Text>{room.name + ' '}</Text><TouchableHighlight onPress={() => this.onEnterRoomClick(room.id)}><Text>Enter</Text></TouchableHighlight></View>);
+  }
+
+  onEnterRoomClick(id) {
+    this.props.navigator.push({
+      id: 'RoomScene',
+      roomId: id
+    });
   }
 }
 

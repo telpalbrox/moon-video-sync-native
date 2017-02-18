@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Navigator, Platform } from 'react-native';
 import IndexScene from './IndexScene';
 import RoomsScene from './RoomsScene';
+import RoomScene from './RoomScene';
 import { Storage } from '../Storage';
 import Transitions from '../CustomTransitions';
 
@@ -27,7 +28,6 @@ export default class App extends Component {
                 return (<RoomsScene navigator={navigator} />);
             case 'InitialScene':
                 Storage.getItem('logged').then((value) => {
-                    console.log(value)
                     if (value === 'true') {
                         navigator.push({
                             id: 'RoomsScene',
@@ -41,6 +41,8 @@ export default class App extends Component {
                     }
                 });
                 return (null);
+            case 'RoomScene':
+                return (<RoomScene roomId={route.roomId} />);
             case 'IndexScene':
             default:
                 return (<IndexScene navigator={navigator} />);

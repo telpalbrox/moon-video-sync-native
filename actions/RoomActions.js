@@ -19,6 +19,23 @@ const RoomActions = {
                 err
             });
         }
+    },
+    async getOne(id) {
+        AppDispatcher.dispatch({
+            type: 'ROOM_REQUEST'
+        });
+        try {
+            let response = await axios.get(`${config.API_URL}/rooms/${id}`, { withCredentials: true });
+            AppDispatcher.dispatch({
+                type: 'ROOM_REQUEST_SUCCESS',
+                room: response.data
+            });
+        } catch (err) {
+            AppDispatcher.dispatch({
+                type: 'ROOM_REQUEST_ERROR',
+                err
+            });
+        }
     }
 };
 
