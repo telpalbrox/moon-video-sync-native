@@ -51,7 +51,7 @@ class RoomsScene extends Component {
                 return;
             }
             if (Platform.OS === 'ios') {
-                this.player.seekTo(seconds + 5);
+                this.player.seekTo(seconds);
             } else {
                 setTimeout(() => {
                     this.player.seekTo(seconds + 6);
