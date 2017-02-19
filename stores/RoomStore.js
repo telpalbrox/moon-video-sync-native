@@ -12,7 +12,8 @@ class RoomStore extends ReduceStore {
             loading: false,
             rooms: null,
             room: null,
-            error: false
+            error: false,
+            currentVideo: null
         });
     }
 
@@ -28,10 +29,15 @@ class RoomStore extends ReduceStore {
             case 'ROOM_REQUEST':
                 return state.set('loading', true);
             case 'ROOM_REQUEST_SUCCESS':
-                return state = state.set('room', Immutable.Map(action.room)).set('loading', false).set('error', false);
+                state = state.set('room', Immutable.fromJS(action.room)).set('loading', false).set('error', false);
+                state = state.set('currentVideo', Immutable.fromJS(action.room.videos.find((video) => video.id === action.room.currentVideoId)));
+                return state;
             case 'ROOM_REQUEST_ERROR':
                 console.error(action.err);
                 return state.set('room', null).set('loading', false).set('error', true);
+            case 'ROOM_CHANGE_VIDEO':
+                console.log('change video');
+                return state.set('currentVideo', Immutable.fromJS(state.get('room').get('videos').toJS().find((video) => video.id === action.video.id)));;
             default:
                 return state;
         }

@@ -1,6 +1,9 @@
 import axios from 'axios';
+import io from 'socket.io-client';
 import { AppDispatcher } from '../AppDispatcher';
 import { config } from '../config';
+
+let socket = null;
 
 const RoomActions = {
     async getAll(email, password) {
@@ -36,6 +39,24 @@ const RoomActions = {
                 err
             });
         }
+    },
+    join(id) {
+        socket = io(config.API_URL, { transports: ['websocket'] });
+        socket.connect();
+        socket.on('connect', async () => {
+            await axios.post(`${config.API_URL}/socket/${socket.id}`, { socketId: socket.id });
+            socket.emit('join room', { id });
+            socket.on('video changed', (video) => {
+                console.log('change videooo')
+                AppDispatcher.dispatch({
+                    type: 'ROOM_CHANGE_VIDEO',
+                    video
+                });
+            });
+        });
+    },
+    exit(id) {
+
     }
 };
 
