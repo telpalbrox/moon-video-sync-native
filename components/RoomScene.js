@@ -31,7 +31,7 @@ class RoomsScene extends Component {
                     videoId={currentVideo ? currentVideo.youtubeId : null}
                     play={true}
                     hidden={false}
-                    playsInline={true}
+                    fullscreen={false}
                     loop={false}
                     style={{ alignSelf: 'stretch', height: 300, width: 300, backgroundColor: 'black', marginVertical: 10 }}
                     apiKey={process.env.GOOGLE_KEY}
